@@ -18,9 +18,11 @@
     "mongodb": "^7.7.0",
     "next": "16.3.6",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "resend": "^6.32.0"
   },
   "devDependencies": {
+    "@gravity-ui/icons": "^2.22.0",
     "@tailwindcss/postcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "16.3.6",

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Description,
@@ -10,20 +10,21 @@ import {
   Label,
   TextField,
 } from "@heroui/react";
-import { signUp } from "@/lib/auth-client";
+import { signIn, signUp } from "@/lib/auth-client";
 
 const SignUpPage = () => {
+
+
+  const [isVisible, setIsVisible] = useState(false);
+
   const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const loginData = Object.fromEntries(formData.entries());
     // Convert FormData to plain object
-    formData.forEach((value, key) => {
-      loginData[key] = value.toString();
-    });
+    
     console.log("Data from form:", loginData);
-``
-    const {data: resData, error} = await signUp({
+    const {data: resData, error} = await signUp.email({
         name: loginData.name,
         email: loginData.email,
         password: loginData.password,
@@ -32,8 +33,22 @@ const SignUpPage = () => {
     console.log("Response from signUp:", resData, error);
   };
 
+  const handleGoogleSignIn = async () => {
+    const resData = await signIn.social({
+      provider: 'google',
+    })
+    console.log("Response from Google signIn:", resData);
+  };
+
+  const handleGithubSignIn = async () => {
+    const resData = await signIn.social({
+      provider: 'github',
+    })
+    console.log("Response from Github signIn:", resData);
+  }
+
   return (
-    <div>
+    <div className="flex min-h-screen flex-col items-center justify-center gap-4 bg-background p-4">
       <Form className="flex w-96 flex-col gap-4" onSubmit={onSubmit}>
         <TextField
           isRequired
@@ -99,6 +114,9 @@ const SignUpPage = () => {
           </Button>
         </div>
       </Form>
+      <p>or</p>
+      <Button onClick={handleGoogleSignIn}>Sign in with Google</Button>
+      <Button onClick={handleGithubSignIn}>Sign in with Github</Button>
     </div>
   );
 };
